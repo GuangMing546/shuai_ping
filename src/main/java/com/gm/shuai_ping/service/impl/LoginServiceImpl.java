@@ -1,12 +1,11 @@
 package com.gm.shuai_ping.service.impl;
 
 import com.gm.shuai_ping.entity.LoginEntity;
-import com.gm.shuai_ping.entity.User;
 import com.gm.shuai_ping.mapper.LoginMapper;
 import com.gm.shuai_ping.service.LoginService;
 import com.gm.shuai_ping.util.JwtUtil;
 import com.gm.shuai_ping.util.ResultCode;
-import com.gm.shuai_ping.util.ResultData;
+import com.gm.shuai_ping.util.LoginData;
 import com.gm.shuai_ping.util.ResultResponse;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +18,14 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResultResponse checkLogin(LoginEntity loginEntity) {
-        User user =loginMapper.getUserFromLogin(loginEntity);
+        LoginData resultData =loginMapper.getUserFromLogin(loginEntity);
 
         ResultResponse resultResponse=new ResultResponse();
-
-        resultResponse.setCode(ResultCode.FAILLogin.getCode());
-        resultResponse.setMessage(ResultCode.FAILLogin.getMessage());
-
-        if (null != user){
+        if (null != resultData){
             //登录成功，生成token
-            String token= JwtUtil.sign(user.getId().toString(),user.getUserName());
+            String token= JwtUtil.sign(resultData.getId().toString(),resultData.getUserName());
             //装配好ResultData
-            ResultData resultData=new ResultData(user.getId(),user.getUserName(),user.getRole(),token);
+            resultData.setToken(token);
             resultData.setUrl(getURL(loginEntity.getRole()));
             //装配好ResultCode
             resultResponse.setCode(ResultCode.SUCCESSLOGIN.getCode());
@@ -39,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
             resultResponse.setObjData(resultData);
             return resultResponse;
         }
+        resultResponse.setCode(ResultCode.FAILLogin.getCode());
+        resultResponse.setMessage(ResultCode.FAILLogin.getMessage());
         return resultResponse;
     }
 

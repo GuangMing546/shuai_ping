@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gm.shuai_ping.mapper.LoginMapper">
-    <select id="getUserFromLogin" resultType="com.gm.shuai_ping.entity.User">
-        select id,user_name,password,role
+    <select id="getUserFromLogin" resultType="com.gm.shuai_ping.util.LoginData">
+        select id,user_name,role
         from
             <if test="role == 1">
                 admins

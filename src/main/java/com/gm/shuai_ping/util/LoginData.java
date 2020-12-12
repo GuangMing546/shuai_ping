@@ -1,16 +1,16 @@
 package com.gm.shuai_ping.util;
 
-public class ResultData {
+public class LoginData {
     private Integer id;
     private String role;
     private String userName;
     private String url;
     private String token;
 
-    public ResultData() {
+    public LoginData() {
     }
 
-    public ResultData(Integer id,String userName,String role,String token) {
+    public LoginData(Integer id, String userName, String role, String token) {
         this.id = id;
         this.role = role;
         this.userName = userName;
