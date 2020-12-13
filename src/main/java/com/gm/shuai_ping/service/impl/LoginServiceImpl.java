@@ -16,27 +16,50 @@ public class LoginServiceImpl implements LoginService {
     @Resource
     LoginMapper loginMapper;
 
+    ResultResponse resultResponse=new ResultResponse();
+
     @Override
     public ResultResponse checkLogin(LoginEntity loginEntity) {
-        ResultResponse resultResponse=new ResultResponse();
-
+        resultResponse.setCode(ResultCode.FAILLogin.getCode());
+        resultResponse.setMessage(ResultCode.FAILLogin.getMessage());
         //通过用户名和密码查询数据库
-        LoginData resultData =loginMapper.getUserFromLogin(loginEntity);
-        if (null != resultData){
+        LoginData loginData =loginMapper.getUserFromLogin(loginEntity);
+        if (null != loginData){
+            //判断这个用户是否已经登录
+            if(loginData.getSignIn()==1){
+                resultResponse.setCode(ResultCode.ALREADYLogin.getCode());
+                resultResponse.setMessage(ResultCode.ALREADYLogin.getMessage());
+                return resultResponse;
+            }
             //登录成功，生成token
             String token= JwtUtil.sign(changeRole(loginEntity.getRole()),loginEntity.getUserName());
             //装配好ResultData
-            resultData.setToken(token);
-            resultData.setUrl(getURL(loginEntity.getRole())); //装好url
-            //装配好ResultCode
+            loginData.setToken(token);  //装好token
+            loginData.setUrl(getURL(loginEntity.getRole())); //装好url
+            //装配好ResultResponse
+            resultResponse.setObjData(loginData);
             resultResponse.setCode(ResultCode.SUCCESSLOGIN.getCode());
             resultResponse.setMessage(ResultCode.SUCCESSLOGIN.getMessage());
-            //装配好ResultResponse
-            resultResponse.setObjData(resultData);
+
+            //修改后台的登录状态
+            loginData.setRole(loginEntity.getRole());
+            loginMapper.updateSignInOn(loginData);
+
             return resultResponse;
         }
-        resultResponse.setCode(ResultCode.FAILLogin.getCode());
-        resultResponse.setMessage(ResultCode.FAILLogin.getMessage());
+
+        return resultResponse;
+    }
+
+    @Override
+    public ResultResponse exit(LoginData loginData) {
+        if (loginMapper.updateSignInOn(loginData)==1){
+            resultResponse.setCode(ResultCode.SUCCESSEXIT.getCode());
+            resultResponse.setMessage(ResultCode.SUCCESSEXIT.getMessage());
+            return resultResponse;
+        }
+        resultResponse.setCode(ResultCode.FAILEXIT.getCode());
+        resultResponse.setMessage(ResultCode.FAILEXIT.getMessage());
         return resultResponse;
     }
 

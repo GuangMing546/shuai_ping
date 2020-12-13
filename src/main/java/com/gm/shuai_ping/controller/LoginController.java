@@ -2,6 +2,7 @@ package com.gm.shuai_ping.controller;
 
 import com.gm.shuai_ping.entity.LoginEntity;
 import com.gm.shuai_ping.service.impl.LoginServiceImpl;
+import com.gm.shuai_ping.util.LoginData;
 import com.gm.shuai_ping.util.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,11 @@ public class LoginController {
     public ResultResponse checkLogin(@RequestBody LoginEntity loginEntity){
         System.out.println(loginEntity);
         return loginService.checkLogin(loginEntity);
+    }
+
+    @PostMapping("/exit")
+    public ResultResponse exit(LoginData loginData){
+       return loginService.exit(loginData);
     }
 
     @PostMapping("/test")

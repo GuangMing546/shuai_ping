@@ -12,6 +12,7 @@ public class User {
    private String phone;
    private String email;
    private Date addTime;
+   private Integer signIn;
 
     @Override
     public String toString() {
@@ -26,6 +27,14 @@ public class User {
                 ", email='" + email + '\'' +
                 ", addTime=" + addTime +
                 '}';
+    }
+
+    public Integer getSignIn() {
+        return signIn;
+    }
+
+    public void setSignIn(Integer signIn) {
+        this.signIn = signIn;
     }
 
     public String getRole() {

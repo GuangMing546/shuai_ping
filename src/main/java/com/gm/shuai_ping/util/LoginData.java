@@ -4,6 +4,7 @@ public class LoginData {
     private Integer id;
     private String role;
     private String userName;
+    private Integer signIn;
     private String url;
     private String token;
 
@@ -15,6 +16,14 @@ public class LoginData {
         this.role = role;
         this.userName = userName;
         this.token = token;
+    }
+
+    public Integer getSignIn() {
+        return signIn;
+    }
+
+    public void setSignIn(Integer signIn) {
+        this.signIn = signIn;
     }
 
     public String getUrl() {
