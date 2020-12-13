@@ -75,4 +75,11 @@
     add_time, enterprise_introduction
     from enterprise
   </select>
+
+
+
+  <select id="getEnterpriseName" resultType="java.lang.String">
+    select user_name from enterprise
+  </select>
+
 </mapper>

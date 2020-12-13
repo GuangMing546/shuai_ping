@@ -6,6 +6,13 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+#    freemarker:
+#      cache: false    #页面不加载缓存，修改即时生效
 mybatis:
   config-location: classpath:MyBatis/mybatis-config.xml
   mapper-locations: classpath:MyBatis/mapper/*.xml
@@ -13,3 +20,5 @@ mybatis:
 logging:
   level:
     com.gm.shuai_ping.mapper: debug
+
+

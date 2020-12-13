@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
     public int updateUser(User user) {
         return usersMapper.updateUser(user);
     }
+
+    @Override
+    public List<String> getAllUserName() {
+        return usersMapper.getAllUserName();
+    }
 }

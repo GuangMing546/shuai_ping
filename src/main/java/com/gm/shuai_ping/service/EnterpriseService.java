@@ -10,4 +10,6 @@ public interface EnterpriseService {
     int updateByPrimaryKey(Enterprise record);
     List<Enterprise> selectAll();
     Enterprise selectEnterpriseById(Integer id);
+
+    List<String> getEnterpriseName();
 }

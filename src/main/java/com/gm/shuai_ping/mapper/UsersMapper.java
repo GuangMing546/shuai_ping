@@ -9,4 +9,6 @@ public interface UsersMapper {
     int insertUser(User user);
     int deleteUserById(Integer id);
     int updateUser(User user);
+
+    List<String> getAllUserName();
 }

@@ -7,6 +7,7 @@ import com.gm.shuai_ping.util.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,10 +18,11 @@ public class UsersController {
     UserServiceImpl userService;
 
     ResultResponse failResultResponse=new ResultResponse(ResultCode.FAIL.getCode(),ResultCode.FAIL.getMessage());
-    ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
 
-    @GetMapping("/getAllUsers")
+
+    @GetMapping("/Admin/users")
     public ResultResponse getAllUsers(){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         List<User> users=userService.getAllUsers();
         if (null == users){
             return failResultResponse;
@@ -29,8 +31,9 @@ public class UsersController {
         return successResultResponse;
     }
 
-    @GetMapping("/getUserById/{id}")
+    @GetMapping("/Admin/user/{id}")
     public ResultResponse getUserById(@PathVariable("id") Integer id){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         User user = userService.getUserById(id);
         if (null == user){
             return failResultResponse;
@@ -39,24 +42,28 @@ public class UsersController {
         return successResultResponse;
     }
 
-    @PostMapping("/insertUser")
+    @PostMapping("/Admin/user")
     public ResultResponse insertUser(@RequestBody User user){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
+        System.out.println(new Date(System.currentTimeMillis()));
         if (userService.insertUser(user)== 0){
             return failResultResponse;
         }
         return successResultResponse;
     }
 
-    @DeleteMapping("/deleteUser")
+    @DeleteMapping("/Admin/user")
     public ResultResponse deleteUser(@RequestBody User user){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         if (userService.deleteUserById(user.getId())== 0){
             return failResultResponse;
         }
         return successResultResponse;
     }
 
-    @PutMapping("/updateUser")
+    @PutMapping("/Admin/user")
     public ResultResponse updateUser(@RequestBody User user){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         if (userService.updateUser(user)== 0){
             return failResultResponse;
         }

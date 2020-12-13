@@ -18,19 +18,25 @@ public class LoginHandleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //跨域请求会首先发一个option请求，直接返回正常状态并通过拦截器
-//        if(request.getMethod().equals("OPTIONS")){
-//            response.setStatus(HttpServletResponse.SC_OK);
-//            return true;
-//        }
-        Map<String,Object> map= new HashMap<>();
-//        response.setCharacterEncoding("utf-8");
+        if(request.getMethod().equals("OPTIONS")){
+            response.setStatus(HttpServletResponse.SC_OK);
+            return true;
+        }
+        //response.setCharacterEncoding("utf-8");
         response.setContentType("application/json;charset=utf-8");
+
+        Map<String,Object> map= new HashMap<>();
         String token=request.getHeader("token");
+        String uri = request.getRequestURI();
+        System.out.println("uri:"+uri);
+        String[]  role=uri.split("/");
+        System.out.println("截取的字符串role："+role[2]);
+
         if(null!=token){
-            boolean verity = JwtUtil.verity(token);
+            boolean verity = JwtUtil.verity(token,role[2]); //把token和用户身份都传进去验证
             //放行请求
             if(verity){
-                System.out.println("token验证成功，通过拦截器");
+                System.out.println("token最终验证成功，通过拦截器");
                 return true;
             }else { //拦截请求并返回信息给前端
                 map.put("code",ResultCode.VERIFYTOKENFILE.getCode());

@@ -38,4 +38,9 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     public Enterprise selectEnterpriseById(Integer id) {
         return enterpriseMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public List<String> getEnterpriseName() {
+        return enterpriseMapper.getEnterpriseName();
+    }
 }

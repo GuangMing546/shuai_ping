@@ -18,15 +18,16 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResultResponse checkLogin(LoginEntity loginEntity) {
-        LoginData resultData =loginMapper.getUserFromLogin(loginEntity);
-
         ResultResponse resultResponse=new ResultResponse();
+
+        //通过用户名和密码查询数据库
+        LoginData resultData =loginMapper.getUserFromLogin(loginEntity);
         if (null != resultData){
             //登录成功，生成token
-            String token= JwtUtil.sign(resultData.getId().toString(),resultData.getUserName());
+            String token= JwtUtil.sign(changeRole(loginEntity.getRole()),loginEntity.getUserName());
             //装配好ResultData
             resultData.setToken(token);
-            resultData.setUrl(getURL(loginEntity.getRole()));
+            resultData.setUrl(getURL(loginEntity.getRole())); //装好url
             //装配好ResultCode
             resultResponse.setCode(ResultCode.SUCCESSLOGIN.getCode());
             resultResponse.setMessage(ResultCode.SUCCESSLOGIN.getMessage());
@@ -55,5 +56,22 @@ public class LoginServiceImpl implements LoginService {
                 break;
         }
         return url;
+    }
+
+    private String changeRole(String role){
+        switch (role){
+            case "1":
+                role="Admin";
+                break;
+            case "2":
+                role="User";
+                break;
+            case "3":
+                role="Enterprise";
+                break;
+            default:
+                break;
+        }
+        return role;
     }
 }

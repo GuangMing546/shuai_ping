@@ -10,7 +10,16 @@
   <insert id="insertUser">
     insert into users (id,role,user_name,password,real_name,sex,phone,email,add_time)
     values
-    (#{id},#{role},#{userName},#{password},#{realName},#{sex},#{phone},#{email},#{addTime})
+    (#{id},#{role},#{userName},#{password},#{realName},
+    <choose>
+      <when test="sex == 0">
+        '女'
+      </when>
+      <otherwise>
+        '男'
+      </otherwise>
+    </choose>
+    ,#{phone},#{email},#{addTime})
   </insert>
   <delete id="deleteUserById">
     delete from users where id=#{id}
@@ -21,6 +30,10 @@
     sex=#{sex},phone=#{phone},email=#{email},add_time=#{addTime}
     where id=#{id}
   </update>
+
+  <select id="getAllUserName" resultType="java.lang.String">
+    select user_name from users
+  </select>
   
 
 </mapper>

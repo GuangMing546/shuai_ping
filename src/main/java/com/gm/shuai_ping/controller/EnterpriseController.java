@@ -5,7 +5,6 @@ import com.gm.shuai_ping.service.impl.EnterpriseServiceImpl;
 import com.gm.shuai_ping.util.ResultCode;
 import com.gm.shuai_ping.util.ResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,10 +17,11 @@ public class EnterpriseController {
     EnterpriseServiceImpl enterpriseService;
 
     ResultResponse failResultResponse=new ResultResponse(ResultCode.FAIL.getCode(),ResultCode.FAIL.getMessage());
-    ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
 
-    @GetMapping("/getAllEnterprises")
+
+    @GetMapping("/Admin/enterprises")
     public ResultResponse getAllEnterprises(){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         List<Enterprise> enterprises = enterpriseService.selectAll();
         if (null == enterprises){
             return failResultResponse;
@@ -30,8 +30,9 @@ public class EnterpriseController {
         return successResultResponse;
     }
 
-    @GetMapping("/getEnterpriseById/{id}")
+    @GetMapping("/Admin/enterprise/{id}")
     public ResultResponse getEnterpriseById(@PathVariable("id") Integer id){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         Enterprise enterprise = enterpriseService.selectEnterpriseById(id);
         if (null == enterprise){
             return failResultResponse;
@@ -40,24 +41,27 @@ public class EnterpriseController {
         return successResultResponse;
     }
 
-    @PostMapping("/insertEnterprise")
+    @PostMapping("/Admin/enterprise")
     public ResultResponse insertEnterprise(@RequestBody Enterprise enterprise){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         if (0 == enterpriseService.insert(enterprise)){
             return failResultResponse;
         }
         return successResultResponse;
     }
 
-    @DeleteMapping("/deleteEnterprise")
+    @DeleteMapping("/Admin/enterprise")
     public ResultResponse deleteEnterprise(@RequestBody Enterprise enterprise){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         if (0 == enterpriseService.deleteByPrimaryKey(enterprise.getId())){
             return failResultResponse;
         }
         return successResultResponse;
     }
 
-    @PutMapping("/updateEnterprise")
+    @PutMapping("/Admin/enterprise")
     public ResultResponse updateEnterprise(@RequestBody Enterprise enterprise){
+        ResultResponse successResultResponse=new ResultResponse(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMessage());
         if (0 == enterpriseService.updateByPrimaryKey(enterprise)){
             return failResultResponse;
         }

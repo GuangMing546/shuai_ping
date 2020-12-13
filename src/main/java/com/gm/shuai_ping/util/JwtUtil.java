@@ -29,7 +29,7 @@ public class JwtUtil {
      * @param userName
      * @return
      */
-    public static String sign(String userId,String userName){
+    public static String sign(String role,String userName){
         //通过token秘钥和加密算法生成一个Algorithm（算法对象）
         Algorithm algorithm=Algorithm.HMAC256(TOKEN_SECRET);
         //设置过期时间
@@ -38,9 +38,9 @@ public class JwtUtil {
         Map<String,Object> header=new HashMap<>();
         header.put("typ","JWT");
         header.put("alg","HS256");
-        //附带userName和userId生成签名
+        //附带userName和role生成签名
         String token= JWT.create().withHeader(header)
-                            .withClaim("userId",userId)
+                            .withClaim("role",role)
                             .withClaim("userName",userName)
                             .withExpiresAt(date)
                             .sign(algorithm);
@@ -53,7 +53,7 @@ public class JwtUtil {
     /**
      * 验证签名
      */
-    public static boolean verity(String token){
+    public static boolean verity(String token,String role){
         try {
             //我们先拿到我的算法
             Algorithm algorithm=Algorithm.HMAC256(TOKEN_SECRET);
@@ -61,13 +61,18 @@ public class JwtUtil {
             JWTVerifier verifier=JWT.require(algorithm).build();
             DecodedJWT jwt=verifier.verify(token); //这个我一直有点疑问，是怎么样验证的呢
             //验证不通过就会抛出异常
-            System.out.println("认证通过：");
+            System.out.println("token初步认证通过（但是不知道角色验证那一步通不通过）");
 
-            Claim userId=jwt.getClaim("userId");
+            Claim roleFromToken=jwt.getClaim("role");
             Claim userName=jwt.getClaim("userName");
-            System.out.println("userId= " + userId.asString());
-            System.out.println("userName= " + userName.asString());
+            System.out.println("从token中解析出来的role：" + roleFromToken.asString());
+            System.out.println("userName：" + userName.asString());
             System.out.println("过期时间："+jwt.getExpiresAt());
+
+            //为了实现不同的身份，是不能跳去与它身份不同的页面的
+            if(!roleFromToken.asString().equals(role)){
+                return false;
+            }
 
         } catch (IllegalArgumentException e) {
             return false;

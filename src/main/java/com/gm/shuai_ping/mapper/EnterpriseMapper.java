@@ -43,4 +43,7 @@ public interface EnterpriseMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Enterprise record);
+
+    //自己加的方法
+    List<String> getEnterpriseName();
 }
