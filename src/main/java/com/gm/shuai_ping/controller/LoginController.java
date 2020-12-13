@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     @PostMapping("/exit")
-    public ResultResponse exit(LoginData loginData){
+    public ResultResponse exit(@RequestBody LoginData loginData){
        return loginService.exit(loginData);
     }
 

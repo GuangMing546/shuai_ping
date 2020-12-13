@@ -5,5 +5,6 @@ import com.gm.shuai_ping.util.LoginData;
 
 public interface LoginMapper {
     LoginData getUserFromLogin(LoginEntity loginEntity);
-    int updateSignInOn(LoginData loginData);
+    int updateSignInOnFromLogin(LoginData loginData);
+    int updateSignInFromExit(LoginData loginData);
 }

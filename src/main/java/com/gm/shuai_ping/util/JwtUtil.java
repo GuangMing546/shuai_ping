@@ -40,10 +40,11 @@ public class JwtUtil {
         header.put("alg","HS256");
         //附带userName和role生成签名
         String token= JWT.create().withHeader(header)
-                            .withClaim("role",role)
-                            .withClaim("userName",userName)
-                            .withExpiresAt(date)
-                            .sign(algorithm);
+                            .withClaim("role",role) //用户的身份：Admin，User，Enterprise
+                            .withClaim("userName",userName) //用户的名字
+                            .withExpiresAt(date) //过期时间
+                            .sign(algorithm);   //算法
+
         //还有一种方法来创建token，它在maven引入了不同的依赖
         //然后token是用JWTS.builder来创建的
         //其实大同小异，jwt的字段都是一样的：Header，Payload，Signature

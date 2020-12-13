@@ -17,24 +17,27 @@ import java.util.Map;
 public class LoginHandleInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //不加这个的话，除了拦截器放行的（exclude）请求，那所有的请求就都会被拦截了
         //跨域请求会首先发一个option请求，直接返回正常状态并通过拦截器
         if(request.getMethod().equals("OPTIONS")){
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }
         //response.setCharacterEncoding("utf-8");
+        //这个是拿来当没通过拦截器的时候，写响应信息给前端用的
         response.setContentType("application/json;charset=utf-8");
-
+        //这个也是拿来当没通过拦截器的时候，写响应信息给前端用的
         Map<String,Object> map= new HashMap<>();
+        //获取token，准备做token的验证
         String token=request.getHeader("token");
+        //获取uri，准备做身份的验证
         String uri = request.getRequestURI();
         System.out.println("uri:"+uri);
         String[]  role=uri.split("/");
         System.out.println("截取的字符串role："+role[2]);
-
+        //开始验证
         if(null!=token){
             boolean verity = JwtUtil.verity(token,role[2]); //把token和用户身份都传进去验证
-            //放行请求
             if(verity){
                 System.out.println("token最终验证成功，通过拦截器");
                 return true;

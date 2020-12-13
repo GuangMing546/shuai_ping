@@ -8,6 +8,18 @@ public class LoginData {
     private String url;
     private String token;
 
+    @Override
+    public String toString() {
+        return "LoginData{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                ", userName='" + userName + '\'' +
+                ", signIn=" + signIn +
+                ", url='" + url + '\'' +
+                ", token='" + token + '\'' +
+                '}';
+    }
+
     public LoginData() {
     }
 

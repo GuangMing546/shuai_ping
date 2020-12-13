@@ -43,7 +43,7 @@ public class LoginServiceImpl implements LoginService {
 
             //修改后台的登录状态
             loginData.setRole(loginEntity.getRole());
-            loginMapper.updateSignInOn(loginData);
+            loginMapper.updateSignInOnFromLogin(loginData);
 
             return resultResponse;
         }
@@ -53,7 +53,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResultResponse exit(LoginData loginData) {
-        if (loginMapper.updateSignInOn(loginData)==1){
+        System.out.println(loginData);
+        if (loginMapper.updateSignInFromExit(loginData)==1){
             resultResponse.setCode(ResultCode.SUCCESSEXIT.getCode());
             resultResponse.setMessage(ResultCode.SUCCESSEXIT.getMessage());
             return resultResponse;

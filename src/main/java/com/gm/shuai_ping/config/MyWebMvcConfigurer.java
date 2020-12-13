@@ -27,6 +27,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         excludePath.add("/v1/login");     //登录
         excludePath.add("/v1/static/**");  //静态资源
         excludePath.add("/v1/assets/**");  //静态资源
+        excludePath.add("/v1/exit");
 
         registry.addInterceptor(loginHandleInterceptor).addPathPatterns("/**")
                                                         .excludePathPatterns(excludePath);

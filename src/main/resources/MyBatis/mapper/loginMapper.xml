@@ -18,7 +18,7 @@
             where user_name=#{userName} and password=#{password}
     </select>
 
-    <update id="updateSignInOn">
+    <update id="updateSignInOnFromLogin">
         update
         <if test="role == 1">
             admins
@@ -29,16 +29,21 @@
         <if test="role == 3">
             enterprise
         </if>
-        set
-        <choose>
-            <when test="signIn == 0">
-                sign_in=1
-            </when>
-            <when test="signIn == 1">
-                sign_in=0
-            </when>
-        </choose>
-         where id=#{id}
+        set sign_in=1 where id=#{id}
+    </update>
+
+    <update id="updateSignInFromExit">
+        update
+        <if test="role == 1">
+            admins
+        </if>
+        <if test="role == 2">
+            users
+        </if>
+        <if test="role == 3">
+            enterprise
+        </if>
+        set sign_in=0 where id=#{id}
     </update>
 
 
